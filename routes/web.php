@@ -24,7 +24,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('admin.dashboard'); // Nanti kita buat file ini
     })->name('admin.dashboard');
 
-    // Nanti kita taruh Route Category & Product di sini (Tahap 4)
+    // Route Resource untuk Kategori (Otomatis buat index, create, store, edit, update, destroy)
+    Route::resource('admin/categories', \App\Http\Controllers\CategoryController::class);
+    
+    // Product di sini
 });
 
 

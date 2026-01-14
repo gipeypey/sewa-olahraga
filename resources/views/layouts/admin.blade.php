@@ -61,7 +61,7 @@
             </li>
 
             <li class="menu-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-              <a href="#" class="menu-link">
+              <a href="{{ route('categories.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category"></i>
                 <div>Kategori</div>
               </a>
@@ -158,7 +158,7 @@
                 <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                   <div class="mb-2 mb-md-0">
                     © <script>document.write(new Date().getFullYear());</script>
-                    , SewaSport System
+                    , Sewa-Olahraga System
                   </div>
                 </div>
             </footer>
