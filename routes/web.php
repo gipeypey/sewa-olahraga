@@ -27,7 +27,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Route Resource untuk Kategori (Otomatis buat index, create, store, edit, update, destroy)
     Route::resource('admin/categories', \App\Http\Controllers\CategoryController::class);
     
-    // Product di sini
+    // Route Resource untuk Product
+    Route::resource('admin/products', \App\Http\Controllers\ProductController::class);
 });
 
 
@@ -35,10 +36,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     
     // Dashboard User / Home User
-    Route::get('/user/dashboard', function () {
-        return view('dashboard'); // Pakai view dashboard bawaan Breeze dulu
-    })->name('user.dashboard');
+    Route::get('/user/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('user.dashboard');
 
+    // Form Sewa
+    Route::get('/sewa/{id}', [\App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
+
+    // bawaan breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
