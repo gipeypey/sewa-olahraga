@@ -1,8 +1,16 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PeminjamanController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Peminjaman;
+
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\Admin\AdminPeminjamanController;
 
 // Halaman Depan (Bisa diakses siapa saja)
 Route::get('/', function () {
@@ -22,7 +30,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     // Dashboard Admin
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        // Mengambil data statistik
+        $totalAlat = Product::count();
+        $totalKategori = Category::count();
+        $peminjamanPending = Peminjaman::where('status', 'pending')->count();
+        $totalPendapatan = Peminjaman::where('status', 'disetujui')->sum('total_biaya');
+        
+        // Ambil 5 transaksi terbaru untuk ditampilkan di tabel dashboard
+        $peminjamanTerbaru = Peminjaman::with(['user', 'product'])->latest()->take(5)->get();
+
+        return view('admin.dashboard', compact(
+            'totalAlat', 
+            'totalKategori', 
+            'peminjamanPending', 
+            'totalPendapatan',
+            'peminjamanTerbaru'
+        ));
     })->name('admin.dashboard');
 
     // Route Resource untuk Kategori (Otomatis buat index, create, store, edit, update, destroy)
