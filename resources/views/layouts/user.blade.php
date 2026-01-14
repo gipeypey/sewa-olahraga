@@ -60,10 +60,10 @@
 
             {{-- Kita pasang # dulu jika route belum ada, atau arahkan ke route riwayat jika sudah ada --}}
             <li class="menu-item {{ request()->routeIs('peminjaman.index') ? 'active' : '' }}">
-              <a href="#" class="menu-link">
+            <a href="{{ route('peminjaman.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-history"></i>
                 <div>Riwayat Sewa</div>
-              </a>
+            </a>
             </li>
           </ul>
         </aside>

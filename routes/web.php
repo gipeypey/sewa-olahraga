@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PeminjamanController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Depan (Bisa diakses siapa saja)
@@ -21,7 +22,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     // Dashboard Admin
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard'); // Nanti kita buat file ini
+        return view('admin.dashboard');
     })->name('admin.dashboard');
 
     // Route Resource untuk Kategori (Otomatis buat index, create, store, edit, update, destroy)
@@ -29,6 +30,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     // Route Resource untuk Product
     Route::resource('admin/products', \App\Http\Controllers\ProductController::class);
+
+    // Route untuk peminjaman
+    Route::get('admin/peminjaman', [\App\Http\Controllers\Admin\AdminPeminjamanController::class, 'index'])->name('admin.peminjaman.index');
+    Route::patch('admin/peminjaman/{id}/status', [\App\Http\Controllers\Admin\AdminPeminjamanController::class, 'updateStatus'])->name('admin.peminjaman.status');
 });
 
 
@@ -36,10 +41,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     
     // Dashboard User / Home User
-    Route::get('/user/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/user/dashboard', [\App\Http\Controllers\User\DashboardController::class, 'index'])
+        ->name('user.dashboard');
 
-    // Form Sewa
-    Route::get('/sewa/{id}', [\App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
+    // Menampilkan Form
+    Route::get('/sewa/{id}', [\App\Http\Controllers\PeminjamanController::class, 'create'])
+        ->name('peminjaman.create');
+    
+    // Memproses Data (INI YANG HILANG SEBELUMNYA)
+    Route::post('/sewa', [\App\Http\Controllers\PeminjamanController::class, 'store'])
+        ->name('peminjaman.store');
+
+    // Peminjaman
+    Route::get('/user/riwayat', [\App\Http\Controllers\PeminjamanController::class, 'index'])->name('peminjaman.index');
 
     // bawaan breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

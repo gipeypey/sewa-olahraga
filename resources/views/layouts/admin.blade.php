@@ -74,8 +74,8 @@
               </a>
             </li>
 
-            <li class="menu-item {{ request()->routeIs('peminjaman.*') ? 'active' : '' }}">
-                <a href="#" class="menu-link">
+            <li class="menu-item {{ request()->routeIs('admin.peminjaman.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.peminjaman.index') }}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-list-check"></i>
                   <div>Peminjaman</div>
                 </a>

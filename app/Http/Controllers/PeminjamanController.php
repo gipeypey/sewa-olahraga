@@ -58,4 +58,14 @@ class PeminjamanController extends Controller
 
         return redirect()->route('user.dashboard')->with('success', 'Berhasil menyewa alat! Silakan tunggu persetujuan Admin.');
     }
+
+    public function index()
+    {
+        $peminjamans = Peminjaman::where('user_id', Auth::id())
+            ->with('product') // Eager loading produk
+            ->latest()
+            ->get();
+
+        return view('user.peminjaman.index', compact('peminjamans'));
+    }
 }
